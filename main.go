@@ -17,20 +17,22 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var privateKey *rsa.PrivateKey
-var crt *x509.Certificate
+var (
+	privateKey *rsa.PrivateKey
+	crt        *x509.Certificate
+)
 
 type License struct {
+	Products           []Product `json:"products"`
 	LicenseID          string    `json:"licenseId"`
 	LicenseeName       string    `json:"licenseeName"`
 	AssigneeName       string    `json:"assigneeName"`
 	AssigneeEmail      string    `json:"assigneeEmail"`
 	LicenseRestriction string    `json:"licenseRestriction"`
-	CheckConcurrentUse bool      `json:"checkConcurrentUse"`
-	Products           []Product `json:"products"`
 	Metadata           string    `json:"metadata"`
 	Hash               string    `json:"hash"`
 	GracePeriodDays    int       `json:"gracePeriodDays"`
+	CheckConcurrentUse bool      `json:"checkConcurrentUse"`
 	AutoProlongated    bool      `json:"autoProlongated"`
 	IsAutoProlongated  bool      `json:"isAutoProlongated"`
 }
@@ -54,7 +56,6 @@ func generateLicenseID() string {
 }
 
 func generateLicense(c *gin.Context) {
-
 	var license License
 	if err := c.ShouldBindJSON(&license); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -106,36 +107,36 @@ func cors() gin.HandlerFunc {
 }
 
 func init() {
-	// Load private key and certificate
+	// load private key and certificate
 	privateKeyPEM, err := os.ReadFile("./jetbra.key")
 	if err != nil {
-		panic("读取 jetbra.key 报错, 原因: " + err.Error())
+		panic("failed to read jetbra.key file, cause: " + err.Error())
 	}
 
 	block, _ := pem.Decode(privateKeyPEM)
 
 	privateKey, err = x509.ParsePKCS1PrivateKey(block.Bytes)
 	if err != nil {
-		panic("解析 jetbra.key 报错, 原因: " + err.Error())
+		panic("parsing jetbra.key file failed, cause: " + err.Error())
 	}
 
 	crtPEM, err := os.ReadFile("./jetbra.pem")
 	if err != nil {
-		panic("读取 jetbra.pem 报错, 原因: " + err.Error())
+		panic("failed to read jetbra.pem file, cause: " + err.Error())
 	}
 	block, _ = pem.Decode(crtPEM)
 	crt, err = x509.ParseCertificate(block.Bytes)
 	if err != nil {
-		panic("解析 jetbra.pem 报错, 原因: " + err.Error())
+		panic("parsing jetbra.pem file failed, cause: " + err.Error())
 	}
 }
 
 func main() {
-	//初始化路由
+	// init route
 	r := gin.Default()
 	r.Use(cors())
 	r.Static("static", "static")
-	//加载模板
+	// load templates
 	r.LoadHTMLGlob("templates/*")
 	r.GET("/", index)
 	r.POST("/generateLicense", generateLicense)

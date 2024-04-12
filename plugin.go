@@ -24,27 +24,27 @@ var (
 
 type ListPluginResponse struct {
 	Plugins        []*Plugin `json:"plugins,omitempty"`
-	Total          int       `json:"total,omitempty"`
 	CorrectedQuery string    `json:"correctedQuery,omitempty"`
+	Total          int       `json:"total,omitempty"`
 }
 
 type Plugin struct {
-	Id           int    `json:"id"`
 	Code         string `json:"code,omitempty"`
 	Name         string `json:"name"`
 	PricingModel string `json:"pricingModel"`
 	Icon         string `json:"icon"`
+	Id           int    `json:"id"`
 }
 
 type PluginDetail struct {
-	Id           int `json:"id"`
 	PurchaseInfo struct {
-		ProductCode   string      `json:"productCode"`
-		BuyUrl        interface{} `json:"buyUrl"`
-		PurchaseTerms interface{} `json:"purchaseTerms"`
-		Optional      bool        `json:"optional"`
-		TrialPeriod   int         `json:"trialPeriod"`
+		BuyUrl        any    `json:"buyUrl"`
+		PurchaseTerms any    `json:"purchaseTerms"`
+		ProductCode   string `json:"productCode"`
+		TrialPeriod   int    `json:"trialPeriod"`
+		Optional      bool   `json:"optional"`
 	} `json:"purchaseInfo"`
+	Id int `json:"id"`
 }
 
 func init() {
@@ -57,7 +57,6 @@ func init() {
 	}
 	loadAllPlugin()
 	savePlugin()
-	return
 }
 
 func loadAllPlugin() {
@@ -69,7 +68,6 @@ func loadAllPlugin() {
 	pluginList, err := client.Get(pluginBaseUrl + "/api/searchPlugins?max=10000&offset=0")
 	if err != nil {
 		panic(err)
-		return
 	}
 	defer pluginList.Body.Close()
 
@@ -77,7 +75,6 @@ func loadAllPlugin() {
 	err = json.NewDecoder(pluginList.Body).Decode(&listPluginResponse)
 	if err != nil {
 		panic(err)
-		return
 	}
 
 	for i, plugin := range listPluginResponse.Plugins {
