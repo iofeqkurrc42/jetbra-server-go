@@ -1,893 +1,1202 @@
 {{define "/index.html"}}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
     <title>{{.title}}</title>
     <style>
-        .form {
-            background-color: #15172b;
-            border-radius: 20px;
-            box-sizing: border-box;
-            height: 500px;
-            padding: 20px;
-            width: 320px;
-        }
+      .form {
+        background-color: #15172b;
+        border-radius: 20px;
+        box-sizing: border-box;
+        height: 500px;
+        padding: 20px;
+        width: 320px;
+      }
 
-        .title {
-            color: #eee;
-            font-family: sans-serif;
-            font-size: 36px;
-            font-weight: 600;
-            margin-top: 30px;
-        }
+      .title {
+        color: #eee;
+        font-family: sans-serif;
+        font-size: 36px;
+        font-weight: 600;
+        margin-top: 30px;
+      }
 
-        .subtitle {
-            color: #eee;
-            font-family: sans-serif;
-            font-size: 16px;
-            font-weight: 600;
-            margin-top: 10px;
-        }
+      .subtitle {
+        color: #eee;
+        font-family: sans-serif;
+        font-size: 16px;
+        font-weight: 600;
+        margin-top: 10px;
+      }
 
-        .input-container {
-            height: 50px;
-            position: relative;
-            width: 100%;
-        }
+      .input-container {
+        height: 50px;
+        position: relative;
+        width: 100%;
+      }
 
-        .ic1 {
-            margin-top: 40px;
-        }
+      .ic1 {
+        margin-top: 40px;
+      }
 
-        .ic2 {
-            margin-top: 30px;
-        }
+      .ic2 {
+        margin-top: 30px;
+      }
 
-        .input {
-            background-color: #303245;
-            border-radius: 12px;
-            border: 0;
-            box-sizing: border-box;
-            color: #eee;
-            font-size: 18px;
-            height: 100%;
-            outline: 0;
-            padding: 4px 20px 0;
-            width: 100%;
-        }
+      .input {
+        background-color: #303245;
+        border-radius: 12px;
+        border: 0;
+        box-sizing: border-box;
+        color: #eee;
+        font-size: 18px;
+        height: 100%;
+        outline: 0;
+        padding: 4px 20px 0;
+        width: 100%;
+      }
 
-        .cut {
-            background-color: #15172b;
-            border-radius: 10px;
-            height: 20px;
-            left: 20px;
-            position: absolute;
-            top: -20px;
-            transform: translateY(0);
-            transition: transform 200ms;
-            width: 76px;
-        }
+      .cut {
+        background-color: #15172b;
+        border-radius: 10px;
+        height: 20px;
+        left: 20px;
+        position: absolute;
+        top: -20px;
+        transform: translateY(0);
+        transition: transform 200ms;
+        width: 76px;
+      }
 
-        .cut-short {
-            width: 50px;
-        }
+      .cut-short {
+        width: 50px;
+      }
 
-        .input:focus ~ .cut,
-        .input:not(:placeholder-shown) ~ .cut {
-            transform: translateY(8px);
-        }
+      .input:focus ~ .cut,
+      .input:not(:placeholder-shown) ~ .cut {
+        transform: translateY(8px);
+      }
 
-        .placeholder {
-            color: #65657b;
-            font-family: sans-serif;
-            left: 20px;
-            line-height: 14px;
-            pointer-events: none;
-            position: absolute;
-            transform-origin: 0 50%;
-            transition: transform 200ms, color 200ms;
-            top: 20px;
-        }
+      .placeholder {
+        color: #65657b;
+        font-family: sans-serif;
+        left: 20px;
+        line-height: 14px;
+        pointer-events: none;
+        position: absolute;
+        transform-origin: 0 50%;
+        transition: transform 200ms, color 200ms;
+        top: 20px;
+      }
 
-        .input:focus ~ .placeholder,
-        .input:not(:placeholder-shown) ~ .placeholder {
-            transform: translateY(-30px) translateX(10px) scale(0.75);
-        }
+      .input:focus ~ .placeholder,
+      .input:not(:placeholder-shown) ~ .placeholder {
+        transform: translateY(-30px) translateX(10px) scale(0.75);
+      }
 
-        .input:not(:placeholder-shown) ~ .placeholder {
-            color: #808097;
-        }
+      .input:not(:placeholder-shown) ~ .placeholder {
+        color: #808097;
+      }
 
-        .input:focus ~ .placeholder {
-            color: #dc2f55;
-        }
+      .input:focus ~ .placeholder {
+        color: #dc2f55;
+      }
 
-        .submit {
-            background-color: #08d;
-            border-radius: 12px;
-            border: 0;
-            box-sizing: border-box;
-            color: #eee;
-            cursor: pointer;
-            font-size: 18px;
-            height: 50px;
-            margin-top: 38px;
-            text-align: center;
-            width: 100%;
-        }
+      .submit {
+        background-color: #08d;
+        border-radius: 12px;
+        border: 0;
+        box-sizing: border-box;
+        color: #eee;
+        cursor: pointer;
+        font-size: 18px;
+        height: 50px;
+        margin-top: 38px;
+        text-align: center;
+        width: 100%;
+      }
 
-        .submit:active {
-            background-color: #06b;
-        }
-
+      .submit:active {
+        background-color: #06b;
+      }
     </style>
     <style>
+      :root {
+        --text-grey: #9e9e9e;
+        --text-main: rgba(0, 0, 0, 0.87);
+        --spacing: 4px;
+        --size: 64px;
+        --radius: 1.5rem;
+        --accent: #5380f7;
+        --text-sm: 0.875rem;
+        --main-bg: #fff;
+        --card-bg: #fff;
+        --hover-color: #eee;
+        --border-color: rgba(0, 0, 0, 0.05);
+        --grey-400: rgba(0, 0, 0, 0.04);
+        --grey-600: rgba(0, 0, 0, 0.06);
+      }
+
+      @media (prefers-color-scheme: dark) {
         :root {
-            --text-grey: #9e9e9e;
-            --text-main: rgba(0, 0, 0, 0.87);
-            --spacing: 4px;
-            --size: 64px;
-            --radius: 1.5rem;
-            --accent: #5380f7;
-            --text-sm: 0.875rem;
-            --main-bg: #fff;
-            --card-bg: #fff;
-            --hover-color: #eee;
-            --border-color: rgba(0, 0, 0, 0.05);
-            --grey-400: rgba(0, 0, 0, 0.04);
-            --grey-600: rgba(0, 0, 0, 0.06);
-        }
-
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --main-bg: rgb(0, 0, 0);
-                --card-bg: rgb(31, 34, 38);
-                --text-main: #d9d9d9;
-                --text-grey: #6e767d;
-                --accent: #1d9bf0;
-                --hover-color: rgba(255, 255, 255, 0.07);
-                --border-color: #4b4648;
-            }
-        }
-
-        body {
-            font-size: 1rem;
-            line-height: 1.5;
-            word-wrap: break-word;
-            font-kerning: normal;
-            font-family: 'Gotham SSm A', 'Gotham SSm B', 'Arial Unicode MS', Helvetica, sans-serif;
-            margin: 0;
-            padding: 0;
-            -webkit-font-smoothing: antialiased;
-            background-color: var(--main-bg);
-        }
-
-        * ul, * ol {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        *[role='button'], button {
-            cursor: pointer;
-        }
-
-        .color-primary {
-            color: var(--text-main);
-        }
-
-
-        .mt-0 {
-            margin-top: 0;
-        }
-
-
-        .radius-1 {
-            border-radius: var(--radius);
-        }
-
-        .px-6 {
-            padding-left: calc(var(--spacing) * 6);
-            padding-right: calc(var(--spacing) * 6);
-        }
-
-        .py-10 {
-            padding-top: calc(var(--spacing) * 10);
-            padding-bottom: calc(var(--spacing) * 10);
-        }
-
-        .pd-6 {
-            padding: calc(var(--spacing) * 6);
-        }
-
-
-        .pt-1 {
-            padding-top: var(--spacing);
-        }
-
-        .pb-0 {
-            padding-bottom: 0;
-        }
-
-        .overflow-hidden {
-            overflow: hidden;
-        }
-
-        .flex {
-            display: flex;
-        }
-
-        .justify-between {
-            justify-content: space-between;
-        }
-
-        .justify-center {
-            justify-content: center;
-        }
-
-
-        .items-center {
-            align-items: center;
-        }
-
-        .shrink-0 {
-            flex-shrink: 0;
-        }
-
-        .text-grey {
-            color: var(--text-grey);
-        }
-
-        .text-sm {
-            font-size: 0.875rem;
-        }
-
-        .bg-card {
-            background-color: var(--card-bg);
-        }
-
-        .truncate {
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: var(--line, 3);
-            overflow: hidden;
-        }
-
-        .truncate-1 {
-            --line: 1;
-        }
-
-        .overflow-ellipsis {
-            text-overflow: ellipsis;
-        }
-
-        .z-grid {
-            display: grid;
-            grid-gap: var(--gutter, 1rem);
-            grid-template-columns: repeat(auto-fill, minmax(min(var(--space, 10rem), 100%), 1fr));
-        }
-
-
-        .card {
-            box-shadow: rgb(0 0 0 / 30%) 0 8px 40px -12px;
-            border-radius: 1.5rem;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-            width: 90%;
-            position: relative;
-            overflow: visible;
-            background-color: var(--card-bg);
-            margin: 0 auto;
-        }
-
-        .card:hover {
-            transform: translateY(-2px);
-        }
-
-        .card:hover .mask {
-            bottom: -1.5rem;
-        }
-
-        .card:hover .mask-c-1 {
-            bottom: -2.5rem;
-        }
-
-        .container {
-            padding-top: calc(var(--spacing) * 10);
-        }
-
-        .container p {
-            position: relative;
-            cursor: pointer;
-            transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-        }
-
-        .container p::after {
-            content: attr(data-content);
-            position: absolute;
-            transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-            color: transparent;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: var(--radius);
-        }
-
-        .container p:hover {
-            color: transparent;
-        }
-
-        .container p:hover::after {
-            color: var(--text-main);
-            background-color: var(--hover-color);
-        }
-
-        .toggle li {
-            z-index: 99;
-            position: relative;
-            background: transparent;
-            padding: 0 20px;
-            color: var(--text-main);
-            transition: background-color 250ms ease-out;
-        }
-
-        .toggle li:hover {
-            background-color: var(--hover-color);
-        }
-
-        .toggle li.active a {
-            color: var(--accent);
-        }
-
-        .toggle li:first-child {
-            border-top-left-radius: var(--text-sm);
-            border-top-right-radius: var(--text-sm);
-        }
-
-        .toggle li:last-child {
-            border-bottom-left-radius: var(--text-sm);
-            border-bottom-right-radius: var(--text-sm);
-        }
-
-        .toggle li:last-child a {
-            border-bottom: 0;
-        }
-
-        .toggle li a {
-            display: block;
-            border-bottom: 1px solid var(--border-color);
-            padding: 16px 0;
-            color: inherit;
-            text-decoration: none;
-            white-space: nowrap;
-        }
-
-        .icon {
-            background-image: url('/static/images/icons.svg?t=4567');
-            background-size: 64px;
-            background-position-x: 0;
-        }
-
-        .icon-ii {
-            background-position-y: -448px;
-        }
-
-        .icon-ps {
-            background-position-y: -512px;
-        }
-
-        .icon-ac {
-            background-position-y: -192px;
-        }
-
-        .icon-db {
-            background-position-y: -320px;
-        }
-
-        .icon-rm {
-            background-position-y: -896px;
-        }
-
-        .icon-ws {
-            background-position-y: -960px;
-        }
-
-        .icon-rd {
-            background-position-y: -832px;
-        }
-
-        .icon-cl {
-            background-position-y: -256px;
-        }
-
-        .icon-pc {
-            background-position-y: -576px;
-        }
-
-        .icon-go {
-            background-position-y: -384px;
-        }
-
-        .icon-ds {
-            background-position-y: -1792px;
-        }
-
-        .icon-dc {
-            background-position-y: -1408px;
-        }
-
-        .icon-dpn {
-            background-position-y: -1536px;
-        }
-
-        .icon-dm {
-            background-position-y: -1472px;
-        }
-
-        .mask {
-            transition: 0.2s;
-            position: absolute;
-            z-index: -1;
-            width: 88%;
-            height: 100%;
-            bottom: 0;
-            border-radius: 1.5rem;
-            background-color: var(--grey-600);
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .mask-c-1 {
-            bottom: 0;
-            width: 72%;
-            background-color: var(--grey-400);
-        }
-
-        .avatar-wrapper {
-            position: relative;
-            width: var(--size);
-            height: var(--size);
-            font-size: 1.25rem;
-            user-select: none;
-            transform: translateY(50%);
-        }
-
-        .avatar-wrapper img, .avatar-wrapper .icon {
-            width: 100%;
-            height: 100%;
-            margin: 0;
-            background-color: var(--card-bg);
-            color: transparent;
-            object-fit: cover;
-            text-align: center;
-            text-indent: 10000px;
-        }
-
-
-        header.tip a {
-            color: var(--accent);
-            text-decoration: none;
-        }
-
-        header.tip p {
-            word-break: break-word;
-            word-wrap: break-word;
-        }
-
-
-        main hr {
-            margin: 0;
-            padding: 0;
-            background: var(--border-color);
-            height: 1px;
-            border: none;
-        }
-
-        footer {
-            --_size: 40px;
-            padding-top: var(--_size);
-            width: 96%;
-            margin: calc(var(--spacing) * 10) auto 0;
-            padding-bottom: var(--_size);
-            border-top: 1px solid var(--border-color);
-            -moz-box-align: center;
-            -webkit-box-pack: justify;
-        }
-
-        footer .lt-panel p:nth-of-type(1) {
-            color: inherit;
-        }
+          --main-bg: rgb(0, 0, 0);
+          --card-bg: rgb(31, 34, 38);
+          --text-main: #d9d9d9;
+          --text-grey: #6e767d;
+          --accent: #1d9bf0;
+          --hover-color: rgba(255, 255, 255, 0.07);
+          --border-color: #4b4648;
+        }
+      }
+
+      body {
+        font-size: 1rem;
+        line-height: 1.5;
+        word-wrap: break-word;
+        font-kerning: normal;
+        font-family: "Gotham SSm A", "Gotham SSm B", "Arial Unicode MS",
+          Helvetica, sans-serif;
+        margin: 0;
+        padding: 0;
+        -webkit-font-smoothing: antialiased;
+        background-color: var(--main-bg);
+      }
+
+      * ul,
+      * ol {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      *[role="button"],
+      button {
+        cursor: pointer;
+      }
+
+      .color-primary {
+        color: var(--text-main);
+      }
+
+      .mt-0 {
+        margin-top: 0;
+      }
+
+      .radius-1 {
+        border-radius: var(--radius);
+      }
+
+      .px-6 {
+        padding-left: calc(var(--spacing) * 6);
+        padding-right: calc(var(--spacing) * 6);
+      }
+
+      .py-10 {
+        padding-top: calc(var(--spacing) * 10);
+        padding-bottom: calc(var(--spacing) * 10);
+      }
+
+      .pd-6 {
+        padding: calc(var(--spacing) * 6);
+      }
+
+      .pt-1 {
+        padding-top: var(--spacing);
+      }
+
+      .pb-0 {
+        padding-bottom: 0;
+      }
+
+      .overflow-hidden {
+        overflow: hidden;
+      }
+
+      .flex {
+        display: flex;
+      }
+
+      .justify-between {
+        justify-content: space-between;
+      }
+
+      .justify-center {
+        justify-content: center;
+      }
+
+      .items-center {
+        align-items: center;
+      }
+
+      .shrink-0 {
+        flex-shrink: 0;
+      }
+
+      .text-grey {
+        color: var(--text-grey);
+      }
+
+      .text-sm {
+        font-size: 0.875rem;
+      }
+
+      .bg-card {
+        background-color: var(--card-bg);
+      }
+
+      .truncate {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: var(--line, 3);
+        overflow: hidden;
+      }
+
+      .truncate-1 {
+        --line: 1;
+      }
+
+      .overflow-ellipsis {
+        text-overflow: ellipsis;
+      }
+
+      .z-grid {
+        display: grid;
+        grid-gap: var(--gutter, 1rem);
+        grid-template-columns: repeat(
+          auto-fill,
+          minmax(min(var(--space, 10rem), 100%), 1fr)
+        );
+      }
+
+      .card {
+        box-shadow: rgb(0 0 0 / 30%) 0 8px 40px -12px;
+        border-radius: 1.5rem;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        width: 90%;
+        position: relative;
+        overflow: visible;
+        background-color: var(--card-bg);
+        margin: 0 auto;
+      }
+
+      .card:hover {
+        transform: translateY(-2px);
+      }
+
+      .card:hover .mask {
+        bottom: -1.5rem;
+      }
+
+      .card:hover .mask-c-1 {
+        bottom: -2.5rem;
+      }
+
+      .container {
+        padding-top: calc(var(--spacing) * 10);
+      }
+
+      .container p {
+        position: relative;
+        cursor: pointer;
+        transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+      }
+
+      .container p::after {
+        content: attr(data-content);
+        position: absolute;
+        transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        color: transparent;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: var(--radius);
+      }
+
+      .container p:hover {
+        color: transparent;
+      }
+
+      .container p:hover::after {
+        color: var(--text-main);
+        background-color: var(--hover-color);
+      }
+
+      .toggle li {
+        z-index: 99;
+        position: relative;
+        background: transparent;
+        padding: 0 20px;
+        color: var(--text-main);
+        transition: background-color 250ms ease-out;
+      }
+
+      .toggle li:hover {
+        background-color: var(--hover-color);
+      }
+
+      .toggle li.active a {
+        color: var(--accent);
+      }
+
+      .toggle li:first-child {
+        border-top-left-radius: var(--text-sm);
+        border-top-right-radius: var(--text-sm);
+      }
+
+      .toggle li:last-child {
+        border-bottom-left-radius: var(--text-sm);
+        border-bottom-right-radius: var(--text-sm);
+      }
+
+      .toggle li:last-child a {
+        border-bottom: 0;
+      }
+
+      .toggle li a {
+        display: block;
+        border-bottom: 1px solid var(--border-color);
+        padding: 16px 0;
+        color: inherit;
+        text-decoration: none;
+        white-space: nowrap;
+      }
+
+      .icon {
+        background-image: url("/static/images/icons.svg?t=4567");
+        background-size: 64px;
+        background-position-x: 0;
+      }
+
+      .icon-ii {
+        background-position-y: -448px;
+      }
+
+      .icon-ps {
+        background-position-y: -512px;
+      }
+
+      .icon-ac {
+        background-position-y: -192px;
+      }
+
+      .icon-db {
+        background-position-y: -320px;
+      }
+
+      .icon-rm {
+        background-position-y: -896px;
+      }
+
+      .icon-ws {
+        background-position-y: -960px;
+      }
+
+      .icon-rd {
+        background-position-y: -832px;
+      }
+
+      .icon-cl {
+        background-position-y: -256px;
+      }
+
+      .icon-pc {
+        background-position-y: -576px;
+      }
+
+      .icon-go {
+        background-position-y: -384px;
+      }
+
+      .icon-ds {
+        background-position-y: -1792px;
+      }
+
+      .icon-dc {
+        background-position-y: -1408px;
+      }
+
+      .icon-dpn {
+        background-position-y: -1536px;
+      }
+
+      .icon-dm {
+        background-position-y: -1472px;
+      }
+
+      .mask {
+        transition: 0.2s;
+        position: absolute;
+        z-index: -1;
+        width: 88%;
+        height: 100%;
+        bottom: 0;
+        border-radius: 1.5rem;
+        background-color: var(--grey-600);
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .mask-c-1 {
+        bottom: 0;
+        width: 72%;
+        background-color: var(--grey-400);
+      }
+
+      .avatar-wrapper {
+        position: relative;
+        width: var(--size);
+        height: var(--size);
+        font-size: 1.25rem;
+        user-select: none;
+        transform: translateY(50%);
+      }
+
+      .avatar-wrapper img,
+      .avatar-wrapper .icon {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        background-color: var(--card-bg);
+        color: transparent;
+        object-fit: cover;
+        text-align: center;
+        text-indent: 10000px;
+      }
+
+      header.tip a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+
+      header.tip p {
+        word-break: break-word;
+        word-wrap: break-word;
+      }
+
+      main hr {
+        margin: 0;
+        padding: 0;
+        background: var(--border-color);
+        height: 1px;
+        border: none;
+      }
+
+      footer {
+        --_size: 40px;
+        padding-top: var(--_size);
+        width: 96%;
+        margin: calc(var(--spacing) * 10) auto 0;
+        padding-bottom: var(--_size);
+        border-top: 1px solid var(--border-color);
+        -moz-box-align: center;
+        -webkit-box-pack: justify;
+      }
+
+      footer .lt-panel p:nth-of-type(1) {
+        color: inherit;
+      }
     </style>
-</head>
-<body style="width:100%;height:100%;">
-<main class="px-6 z-grid py-10" style="--space: 20rem; --gutter: 3.5rem">
-    <article class="card" data-product="IntelliJ IDEA" data-product-codes="II,PCWMP,PSI">
+  </head>
+  <body style="width: 100%; height: 100%">
+    <main class="px-6 z-grid py-10" style="--space: 20rem; --gutter: 3.5rem">
+      <article
+        class="card"
+        data-product="IntelliJ IDEA"
+        data-product-codes="II,PCWMP,PSI"
+      >
         <header>
-            <div class="flex items-center justify-between px-6 pt-1 pb-0 bg-card radius-1">
-                <div class="avatar-wrapper flex items-center justify-center overflow-hidden shrink-0">
-                    <div class="icon icon-ii" role="img"></div>
-                </div>
+          <div
+            class="flex items-center justify-between px-6 pt-1 pb-0 bg-card radius-1"
+          >
+            <div
+              class="avatar-wrapper flex items-center justify-center overflow-hidden shrink-0"
+            >
+              <div class="icon icon-ii" role="img"></div>
             </div>
-            <hr/>
+          </div>
+          <hr />
         </header>
         <div class="pd-6 overflow-hidden bg-card container radius-1">
-            <h1 class="truncate truncate-1 color-primary mt-0 overflow-ellipsis" title='IntelliJ IDEA'>IntelliJ
-                IDEA</h1>
-            <p title="单据复制激活码到剪切板" class="truncate text-sm text-grey" onclick="copyLicense(this)"
-               data-content="复制到剪切板">
-                **********
-            </p>
+          <h1
+            class="truncate truncate-1 color-primary mt-0 overflow-ellipsis"
+            title="IntelliJ IDEA"
+          >
+            IntelliJ IDEA
+          </h1>
+          <p
+            title="单据复制激活码到剪切板"
+            class="truncate text-sm text-grey"
+            onclick="copyLicense(this)"
+            data-content="复制到剪切板"
+          >
+            **********
+          </p>
         </div>
         <div class="mask"></div>
         <div class="mask mask-c-1"></div>
-    </article>
-    <article class="card" data-product="PhpStorm" data-product-codes="PS,PCWMP,PSI">
+      </article>
+      <article
+        class="card"
+        data-product="PhpStorm"
+        data-product-codes="PS,PCWMP,PSI"
+      >
         <header>
-            <div class="flex items-center justify-between px-6 pt-1 pb-0 bg-card radius-1">
-                <div class="avatar-wrapper flex items-center justify-center overflow-hidden shrink-0">
-                    <div class="icon icon-ps" role="img"></div>
-                </div>
+          <div
+            class="flex items-center justify-between px-6 pt-1 pb-0 bg-card radius-1"
+          >
+            <div
+              class="avatar-wrapper flex items-center justify-center overflow-hidden shrink-0"
+            >
+              <div class="icon icon-ps" role="img"></div>
             </div>
-            <hr/>
+          </div>
+          <hr />
         </header>
         <div class="pd-6 overflow-hidden bg-card container radius-1">
-            <h1 class="truncate truncate-1 color-primary mt-0 overflow-ellipsis" title='PhpStorm'>PhpStorm</h1>
-            <p title="单据复制激活码到剪切板" class="truncate text-sm text-grey" onclick="copyLicense(this)"
-               data-content="复制到剪切板">
-                **********
-            </p>
+          <h1
+            class="truncate truncate-1 color-primary mt-0 overflow-ellipsis"
+            title="PhpStorm"
+          >
+            PhpStorm
+          </h1>
+          <p
+            title="单据复制激活码到剪切板"
+            class="truncate text-sm text-grey"
+            onclick="copyLicense(this)"
+            data-content="复制到剪切板"
+          >
+            **********
+          </p>
         </div>
         <div class="mask"></div>
         <div class="mask mask-c-1"></div>
-    </article>
-    <article class="card" data-product="AppCode" data-product-codes="AC,PCWMP,PSI">
+      </article>
+      <article
+        class="card"
+        data-product="AppCode"
+        data-product-codes="AC,PCWMP,PSI"
+      >
         <header>
-            <div class="flex items-center justify-between px-6 pt-1 pb-0 bg-card radius-1">
-                <div class="avatar-wrapper flex items-center justify-center overflow-hidden shrink-0">
-                    <div class="icon icon-ac" role="img"></div>
-                </div>
+          <div
+            class="flex items-center justify-between px-6 pt-1 pb-0 bg-card radius-1"
+          >
+            <div
+              class="avatar-wrapper flex items-center justify-center overflow-hidden shrink-0"
+            >
+              <div class="icon icon-ac" role="img"></div>
             </div>
-            <hr/>
+          </div>
+          <hr />
         </header>
         <div class="pd-6 overflow-hidden bg-card container radius-1">
-            <h1 class="truncate truncate-1 color-primary mt-0 overflow-ellipsis" title='AppCode'>AppCode</h1>
-            <p title="单据复制激活码到剪切板" class="truncate text-sm text-grey" onclick="copyLicense(this)"
-               data-content="复制到剪切板">
-                **********
-            </p>
+          <h1
+            class="truncate truncate-1 color-primary mt-0 overflow-ellipsis"
+            title="AppCode"
+          >
+            AppCode
+          </h1>
+          <p
+            title="单据复制激活码到剪切板"
+            class="truncate text-sm text-grey"
+            onclick="copyLicense(this)"
+            data-content="复制到剪切板"
+          >
+            **********
+          </p>
         </div>
         <div class="mask"></div>
         <div class="mask mask-c-1"></div>
-    </article>
-    <article class="card" data-product="DataGrip" data-product-codes="DB,PSI,PDB">
+      </article>
+      <article
+        class="card"
+        data-product="DataGrip"
+        data-product-codes="DB,PSI,PDB"
+      >
         <header>
-            <div class="flex items-center justify-between px-6 pt-1 pb-0 bg-card radius-1">
-                <div class="avatar-wrapper flex items-center justify-center overflow-hidden shrink-0">
-                    <div class="icon icon-db" role="img"></div>
-                </div>
+          <div
+            class="flex items-center justify-between px-6 pt-1 pb-0 bg-card radius-1"
+          >
+            <div
+              class="avatar-wrapper flex items-center justify-center overflow-hidden shrink-0"
+            >
+              <div class="icon icon-db" role="img"></div>
             </div>
-            <hr/>
+          </div>
+          <hr />
         </header>
         <div class="pd-6 overflow-hidden bg-card container radius-1">
-            <h1 class="truncate truncate-1 color-primary mt-0 overflow-ellipsis" title='DataGrip'>DataGrip</h1>
-            <p title="单据复制激活码到剪切板" class="truncate text-sm text-grey" onclick="copyLicense(this)"
-               data-content="复制到剪切板">
-                **********
-            </p>
+          <h1
+            class="truncate truncate-1 color-primary mt-0 overflow-ellipsis"
+            title="DataGrip"
+          >
+            DataGrip
+          </h1>
+          <p
+            title="单据复制激活码到剪切板"
+            class="truncate text-sm text-grey"
+            onclick="copyLicense(this)"
+            data-content="复制到剪切板"
+          >
+            **********
+          </p>
         </div>
         <div class="mask"></div>
         <div class="mask mask-c-1"></div>
-    </article>
-    <article class="card" data-product="RubyMine" data-product-codes="RM,PCWMP,PSI">
+      </article>
+      <article
+        class="card"
+        data-product="RubyMine"
+        data-product-codes="RM,PCWMP,PSI"
+      >
         <header>
-            <div class="flex items-center justify-between px-6 pt-1 pb-0 bg-card radius-1">
-                <div class="avatar-wrapper flex items-center justify-center overflow-hidden shrink-0">
-                    <div class="icon icon-rm" role="img"></div>
-                </div>
+          <div
+            class="flex items-center justify-between px-6 pt-1 pb-0 bg-card radius-1"
+          >
+            <div
+              class="avatar-wrapper flex items-center justify-center overflow-hidden shrink-0"
+            >
+              <div class="icon icon-rm" role="img"></div>
             </div>
-            <hr/>
+          </div>
+          <hr />
         </header>
         <div class="pd-6 overflow-hidden bg-card container radius-1">
-            <h1 class="truncate truncate-1 color-primary mt-0 overflow-ellipsis" title='RubyMine'>RubyMine</h1>
-            <p title="单据复制激活码到剪切板" class="truncate text-sm text-grey" onclick="copyLicense(this)"
-               data-content="复制到剪切板">
-                **********
-            </p>
+          <h1
+            class="truncate truncate-1 color-primary mt-0 overflow-ellipsis"
+            title="RubyMine"
+          >
+            RubyMine
+          </h1>
+          <p
+            title="单据复制激活码到剪切板"
+            class="truncate text-sm text-grey"
+            onclick="copyLicense(this)"
+            data-content="复制到剪切板"
+          >
+            **********
+          </p>
         </div>
         <div class="mask"></div>
         <div class="mask mask-c-1"></div>
-    </article>
-    <article class="card" data-product="WebStorm" data-product-codes="WS,PCWMP,PSI">
+      </article>
+      <article
+        class="card"
+        data-product="WebStorm"
+        data-product-codes="WS,PCWMP,PSI"
+      >
         <header>
-            <div class="flex items-center justify-between px-6 pt-1 pb-0 bg-card radius-1">
-                <div class="avatar-wrapper flex items-center justify-center overflow-hidden shrink-0">
-                    <div class="icon icon-ws" role="img"></div>
-                </div>
+          <div
+            class="flex items-center justify-between px-6 pt-1 pb-0 bg-card radius-1"
+          >
+            <div
+              class="avatar-wrapper flex items-center justify-center overflow-hidden shrink-0"
+            >
+              <div class="icon icon-ws" role="img"></div>
             </div>
-            <hr/>
+          </div>
+          <hr />
         </header>
         <div class="pd-6 overflow-hidden bg-card container radius-1">
-            <h1 class="truncate truncate-1 color-primary mt-0 overflow-ellipsis" title='WebStorm'>WebStorm</h1>
-            <p title="单据复制激活码到剪切板" class="truncate text-sm text-grey" onclick="copyLicense(this)"
-               data-content="复制到剪切板">
-                **********
-            </p>
+          <h1
+            class="truncate truncate-1 color-primary mt-0 overflow-ellipsis"
+            title="WebStorm"
+          >
+            WebStorm
+          </h1>
+          <p
+            title="单据复制激活码到剪切板"
+            class="truncate text-sm text-grey"
+            onclick="copyLicense(this)"
+            data-content="复制到剪切板"
+          >
+            **********
+          </p>
         </div>
         <div class="mask"></div>
         <div class="mask mask-c-1"></div>
-    </article>
-    <article class="card" data-product="Rider" data-product-codes="RD,PDB,PSI,PCWMP">
+      </article>
+      <article
+        class="card"
+        data-product="Rider"
+        data-product-codes="RD,PDB,PSI,PCWMP"
+      >
         <header>
-            <div class="flex items-center justify-between px-6 pt-1 pb-0 bg-card radius-1">
-                <div class="avatar-wrapper flex items-center justify-center overflow-hidden shrink-0">
-                    <div class="icon icon-rd" role="img"></div>
-                </div>
+          <div
+            class="flex items-center justify-between px-6 pt-1 pb-0 bg-card radius-1"
+          >
+            <div
+              class="avatar-wrapper flex items-center justify-center overflow-hidden shrink-0"
+            >
+              <div class="icon icon-rd" role="img"></div>
             </div>
-            <hr/>
+          </div>
+          <hr />
         </header>
         <div class="pd-6 overflow-hidden bg-card container radius-1">
-            <h1 class="truncate truncate-1 color-primary mt-0 overflow-ellipsis" title='Rider'>Rider</h1>
-            <p title="单据复制激活码到剪切板" class="truncate text-sm text-grey" onclick="copyLicense(this)"
-               data-content="复制到剪切板">
-                **********
-            </p>
+          <h1
+            class="truncate truncate-1 color-primary mt-0 overflow-ellipsis"
+            title="Rider"
+          >
+            Rider
+          </h1>
+          <p
+            title="单据复制激活码到剪切板"
+            class="truncate text-sm text-grey"
+            onclick="copyLicense(this)"
+            data-content="复制到剪切板"
+          >
+            **********
+          </p>
         </div>
         <div class="mask"></div>
         <div class="mask mask-c-1"></div>
-    </article>
-    <article class="card" data-product="CLion" data-product-codes="CL,PSI,PCWMP">
+      </article>
+      <article
+        class="card"
+        data-product="CLion"
+        data-product-codes="CL,PSI,PCWMP"
+      >
         <header>
-            <div class="flex items-center justify-between px-6 pt-1 pb-0 bg-card radius-1">
-                <div class="avatar-wrapper flex items-center justify-center overflow-hidden shrink-0">
-                    <div class="icon icon-cl" role="img"></div>
-                </div>
+          <div
+            class="flex items-center justify-between px-6 pt-1 pb-0 bg-card radius-1"
+          >
+            <div
+              class="avatar-wrapper flex items-center justify-center overflow-hidden shrink-0"
+            >
+              <div class="icon icon-cl" role="img"></div>
             </div>
-            <hr/>
+          </div>
+          <hr />
         </header>
         <div class="pd-6 overflow-hidden bg-card container radius-1">
-            <h1 class="truncate truncate-1 color-primary mt-0 overflow-ellipsis" title='CLion'>CLion</h1>
-            <p title="单据复制激活码到剪切板" class="truncate text-sm text-grey" onclick="copyLicense(this)"
-               data-content="复制到剪切板">
-                **********
-            </p>
+          <h1
+            class="truncate truncate-1 color-primary mt-0 overflow-ellipsis"
+            title="CLion"
+          >
+            CLion
+          </h1>
+          <p
+            title="单据复制激活码到剪切板"
+            class="truncate text-sm text-grey"
+            onclick="copyLicense(this)"
+            data-content="复制到剪切板"
+          >
+            **********
+          </p>
         </div>
         <div class="mask"></div>
         <div class="mask mask-c-1"></div>
-    </article>
-    <article class="card" data-product="PyCharm" data-product-codes="PC,PSI,PCWMP">
+      </article>
+      <article
+        class="card"
+        data-product="PyCharm"
+        data-product-codes="PC,PSI,PCWMP"
+      >
         <header>
-            <div class="flex items-center justify-between px-6 pt-1 pb-0 bg-card radius-1">
-                <div class="avatar-wrapper flex items-center justify-center overflow-hidden shrink-0">
-                    <div class="icon icon-pc" role="img"></div>
-                </div>
+          <div
+            class="flex items-center justify-between px-6 pt-1 pb-0 bg-card radius-1"
+          >
+            <div
+              class="avatar-wrapper flex items-center justify-center overflow-hidden shrink-0"
+            >
+              <div class="icon icon-pc" role="img"></div>
             </div>
-            <hr/>
+          </div>
+          <hr />
         </header>
         <div class="pd-6 overflow-hidden bg-card container radius-1">
-            <h1 class="truncate truncate-1 color-primary mt-0 overflow-ellipsis" title='PyCharm'>PyCharm</h1>
-            <p title="单据复制激活码到剪切板" class="truncate text-sm text-grey" onclick="copyLicense(this)"
-               data-content="复制到剪切板">
-                **********
-            </p>
+          <h1
+            class="truncate truncate-1 color-primary mt-0 overflow-ellipsis"
+            title="PyCharm"
+          >
+            PyCharm
+          </h1>
+          <p
+            title="单据复制激活码到剪切板"
+            class="truncate text-sm text-grey"
+            onclick="copyLicense(this)"
+            data-content="复制到剪切板"
+          >
+            **********
+          </p>
         </div>
         <div class="mask"></div>
         <div class="mask mask-c-1"></div>
-    </article>
-    <article class="card" data-product="GoLand" data-product-codes="GO,PSI,PCWMP">
+      </article>
+      <article
+        class="card"
+        data-product="GoLand"
+        data-product-codes="GO,PSI,PCWMP"
+      >
         <header>
-            <div class="flex items-center justify-between px-6 pt-1 pb-0 bg-card radius-1">
-                <div class="avatar-wrapper flex items-center justify-center overflow-hidden shrink-0">
-                    <div class="icon icon-go" role="img"></div>
-                </div>
+          <div
+            class="flex items-center justify-between px-6 pt-1 pb-0 bg-card radius-1"
+          >
+            <div
+              class="avatar-wrapper flex items-center justify-center overflow-hidden shrink-0"
+            >
+              <div class="icon icon-go" role="img"></div>
             </div>
-            <hr/>
+          </div>
+          <hr />
         </header>
         <div class="pd-6 overflow-hidden bg-card container radius-1">
-            <h1 class="truncate truncate-1 color-primary mt-0 overflow-ellipsis" title='GoLand'>GoLand</h1>
-            <p title="单据复制激活码到剪切板" class="truncate text-sm text-grey" onclick="copyLicense(this)"
-               data-content="复制到剪切板">
-                **********
-            </p>
+          <h1
+            class="truncate truncate-1 color-primary mt-0 overflow-ellipsis"
+            title="GoLand"
+          >
+            GoLand
+          </h1>
+          <p
+            title="单据复制激活码到剪切板"
+            class="truncate text-sm text-grey"
+            onclick="copyLicense(this)"
+            data-content="复制到剪切板"
+          >
+            **********
+          </p>
         </div>
         <div class="mask"></div>
         <div class="mask mask-c-1"></div>
-    </article>
-    <article class="card" data-product="DataSpell" data-product-codes="DS,PSI,PDB,PCWMP">
+      </article>
+      <article
+        class="card"
+        data-product="DataSpell"
+        data-product-codes="DS,PSI,PDB,PCWMP"
+      >
         <header>
-            <div class="flex items-center justify-between px-6 pt-1 pb-0 bg-card radius-1">
-                <div class="avatar-wrapper flex items-center justify-center overflow-hidden shrink-0">
-                    <div class="icon icon-ds" role="img"></div>
-                </div>
+          <div
+            class="flex items-center justify-between px-6 pt-1 pb-0 bg-card radius-1"
+          >
+            <div
+              class="avatar-wrapper flex items-center justify-center overflow-hidden shrink-0"
+            >
+              <div class="icon icon-ds" role="img"></div>
             </div>
-            <hr/>
+          </div>
+          <hr />
         </header>
         <div class="pd-6 overflow-hidden bg-card container radius-1">
-            <h1 class="truncate truncate-1 color-primary mt-0 overflow-ellipsis" title='DataSpell'>DataSpell</h1>
-            <p title="单据复制激活码到剪切板" class="truncate text-sm text-grey" onclick="copyLicense(this)"
-               data-content="复制到剪切板">
-                **********
-            </p>
+          <h1
+            class="truncate truncate-1 color-primary mt-0 overflow-ellipsis"
+            title="DataSpell"
+          >
+            DataSpell
+          </h1>
+          <p
+            title="单据复制激活码到剪切板"
+            class="truncate text-sm text-grey"
+            onclick="copyLicense(this)"
+            data-content="复制到剪切板"
+          >
+            **********
+          </p>
         </div>
         <div class="mask"></div>
         <div class="mask mask-c-1"></div>
-    </article>
-    <article class="card" data-product="dotCover" data-product-codes="DC">
+      </article>
+      <article class="card" data-product="dotCover" data-product-codes="DC">
         <header>
-            <div class="flex items-center justify-between px-6 pt-1 pb-0 bg-card radius-1">
-                <div class="avatar-wrapper flex items-center justify-center overflow-hidden shrink-0">
-                    <div class="icon icon-dc" role="img"></div>
-                </div>
+          <div
+            class="flex items-center justify-between px-6 pt-1 pb-0 bg-card radius-1"
+          >
+            <div
+              class="avatar-wrapper flex items-center justify-center overflow-hidden shrink-0"
+            >
+              <div class="icon icon-dc" role="img"></div>
             </div>
-            <hr/>
+          </div>
+          <hr />
         </header>
         <div class="pd-6 overflow-hidden bg-card container radius-1">
-            <h1 class="truncate truncate-1 color-primary mt-0 overflow-ellipsis" title='dotCover'>dotCover</h1>
-            <p title="单据复制激活码到剪切板" class="truncate text-sm text-grey" onclick="copyLicense(this)"
-               data-content="复制到剪切板">
-                **********
-            </p>
+          <h1
+            class="truncate truncate-1 color-primary mt-0 overflow-ellipsis"
+            title="dotCover"
+          >
+            dotCover
+          </h1>
+          <p
+            title="单据复制激活码到剪切板"
+            class="truncate text-sm text-grey"
+            onclick="copyLicense(this)"
+            data-content="复制到剪切板"
+          >
+            **********
+          </p>
         </div>
         <div class="mask"></div>
         <div class="mask mask-c-1"></div>
-    </article>
-    <article class="card" data-product="dotTrace" data-product-codes="DPN,DP">
+      </article>
+      <article class="card" data-product="dotTrace" data-product-codes="DPN,DP">
         <header>
-            <div class="flex items-center justify-between px-6 pt-1 pb-0 bg-card radius-1">
-                <div class="avatar-wrapper flex items-center justify-center overflow-hidden shrink-0">
-                    <div class="icon icon-dpn" role="img"></div>
-                </div>
+          <div
+            class="flex items-center justify-between px-6 pt-1 pb-0 bg-card radius-1"
+          >
+            <div
+              class="avatar-wrapper flex items-center justify-center overflow-hidden shrink-0"
+            >
+              <div class="icon icon-dpn" role="img"></div>
             </div>
-            <hr/>
+          </div>
+          <hr />
         </header>
         <div class="pd-6 overflow-hidden bg-card container radius-1">
-            <h1 class="truncate truncate-1 color-primary mt-0 overflow-ellipsis" title='dotTrace'>dotTrace</h1>
-            <p title="单据复制激活码到剪切板" class="truncate text-sm text-grey" onclick="copyLicense(this)"
-               data-content="复制到剪切板">
-                **********
-            </p>
+          <h1
+            class="truncate truncate-1 color-primary mt-0 overflow-ellipsis"
+            title="dotTrace"
+          >
+            dotTrace
+          </h1>
+          <p
+            title="单据复制激活码到剪切板"
+            class="truncate text-sm text-grey"
+            onclick="copyLicense(this)"
+            data-content="复制到剪切板"
+          >
+            **********
+          </p>
         </div>
         <div class="mask"></div>
         <div class="mask mask-c-1"></div>
-    </article>
-    <article class="card" data-product="dotMemory" data-product-codes="DM">
+      </article>
+      <article class="card" data-product="dotMemory" data-product-codes="DM">
         <header>
-            <div class="flex items-center justify-between px-6 pt-1 pb-0 bg-card radius-1">
-                <div class="avatar-wrapper flex items-center justify-center overflow-hidden shrink-0">
-                    <div class="icon icon-dm" role="img"></div>
-                </div>
+          <div
+            class="flex items-center justify-between px-6 pt-1 pb-0 bg-card radius-1"
+          >
+            <div
+              class="avatar-wrapper flex items-center justify-center overflow-hidden shrink-0"
+            >
+              <div class="icon icon-dm" role="img"></div>
             </div>
-            <hr/>
+          </div>
+          <hr />
         </header>
         <div class="pd-6 overflow-hidden bg-card container radius-1">
-            <h1 class="truncate truncate-1 color-primary mt-0 overflow-ellipsis" title='dotMemory'>dotMemory</h1>
-            <p title="单据复制激活码到剪切板" class="truncate text-sm text-grey" onclick="copyLicense(this)"
-               data-content="复制到剪切板">
-                **********
-            </p>
+          <h1
+            class="truncate truncate-1 color-primary mt-0 overflow-ellipsis"
+            title="dotMemory"
+          >
+            dotMemory
+          </h1>
+          <p
+            title="单据复制激活码到剪切板"
+            class="truncate text-sm text-grey"
+            onclick="copyLicense(this)"
+            data-content="复制到剪切板"
+          >
+            **********
+          </p>
         </div>
         <div class="mask"></div>
         <div class="mask mask-c-1"></div>
-    </article>
-</main>
-<footer class="flex items-center justify-between">
-    <div class="text-sm text-grey">Theme by QieTuZai</div>
-    <div class="text-sm text-grey">Copy from ja-netfilter</div>
-</footer>
-<div id ="mask" style="position:fixed;top:0;left:0;z-index:998;width:100%;height:100%;display:none;background-color:#000;opacity:0.5;overflow:hidden;"></div>
-<div id="form" style="position:fixed;top:20%;left:40%;width:40%;height:500px;z-index:999;display:none;">
-    <div class="form">
+      </article>
+      {{- range .plugins}}
+      <article
+        class="card"
+        data-product="{{ .Name }}"
+        data-product-codes="{{ .Code }}"
+      >
+        <header>
+          <div
+            class="flex items-center justify-between px-6 pt-1 pb-0 bg-card radius-1"
+          >
+            <div
+              class="avatar-wrapper flex items-center justify-center overflow-hidden shrink-0"
+            >
+              <div
+                class="icon"
+                role="img"
+                style="background-image: url('{{ .Icon }}')"
+              ></div>
+            </div>
+          </div>
+          <hr />
+        </header>
+        <div class="pd-6 overflow-hidden bg-card container radius-1">
+          <h1
+            class="truncate truncate-1 color-primary mt-0 overflow-ellipsis"
+            title="{{ .Name }}"
+          >
+            {{ .Name }}
+          </h1>
+          <p
+            title="单据复制激活码到剪切板"
+            class="truncate text-sm text-grey"
+            onclick="copyLicense(this)"
+            data-content="复制到剪切板"
+          >
+            **********
+          </p>
+        </div>
+        <div class="mask"></div>
+        <div class="mask mask-c-1"></div>
+      </article>
+      {{- end }}
+    </main>
+    <footer class="flex items-center justify-between">
+      <div class="text-sm text-grey">Theme by QieTuZai</div>
+      <div class="text-sm text-grey">Copy from ja-netfilter</div>
+    </footer>
+    <div
+      id="mask"
+      style="
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 998;
+        width: 100%;
+        height: 100%;
+        display: none;
+        background-color: #000;
+        opacity: 0.5;
+        overflow: hidden;
+      "
+    ></div>
+    <div
+      id="form"
+      style="
+        position: fixed;
+        top: 20%;
+        left: 40%;
+        width: 40%;
+        height: 500px;
+        z-index: 999;
+        display: none;
+      "
+    >
+      <div class="form">
         <div class="title">欢迎</div>
         <div class="subtitle">请输入授权信息</div>
         <div class="input-container ic1">
-            <input id="licenseeName" class="input" type="text" placeholder=" " value="{{.licenseeName}}"/>
-            <div class="cut"></div>
-            <label for="licenseeName" class="placeholder">证书名称</label>
+          <input
+            id="licenseeName"
+            class="input"
+            type="text"
+            placeholder=" "
+            value="{{.licenseeName}}"
+          />
+          <div class="cut"></div>
+          <label for="licenseeName" class="placeholder">证书名称</label>
         </div>
         <div class="input-container ic2">
-            <input id="assigneeName" class="input" type="text" placeholder=" " value="{{.assigneeName}}"/>
-            <div class="cut"></div>
-            <label for="assigneeName" class="placeholder">姓名</label>
+          <input
+            id="assigneeName"
+            class="input"
+            type="text"
+            placeholder=" "
+            value="{{.assigneeName}}"
+          />
+          <div class="cut"></div>
+          <label for="assigneeName" class="placeholder">姓名</label>
         </div>
         <div class="input-container ic2">
-            <input id="expiryDate" class="input" type="text" placeholder="" value="{{.expiryDate}}"/>
-            <div class="cut cut-short"></div>
-            <label for="expiryDate" class="placeholder">过期时间</label>
+          <input
+            id="expiryDate"
+            class="input"
+            type="text"
+            placeholder=""
+            value="{{.expiryDate}}"
+          />
+          <div class="cut cut-short"></div>
+          <label for="expiryDate" class="placeholder">过期时间</label>
         </div>
-        <button  class="submit" onclick="submitLicenseInfo(this)">确认</button>
+        <button class="submit" onclick="submitLicenseInfo(this)">确认</button>
+      </div>
     </div>
-</div>
 
-
-<script>
-    if (localStorage.getItem('licenseInfo') === null) {
-        document.getElementById('mask').style.display = 'block'
-        document.getElementById('form').style.display = 'block'
-    }
-    window.submitLicenseInfo = function () {
-        let licenseeName = document.getElementById('licenseeName').value
-        let assigneeName = document.getElementById('assigneeName').value
-        let expiryDate = document.getElementById('expiryDate').value
+    <script>
+      if (localStorage.getItem("licenseInfo") === null) {
+        document.getElementById("mask").style.display = "block";
+        document.getElementById("form").style.display = "block";
+      }
+      window.submitLicenseInfo = function () {
+        let licenseeName = document.getElementById("licenseeName").value;
+        let assigneeName = document.getElementById("assigneeName").value;
+        let expiryDate = document.getElementById("expiryDate").value;
         let licenseInfo = {
-            licenseeName: licenseeName,
-            assigneeName: assigneeName,
-            expiryDate: expiryDate
-        }
-        localStorage.setItem('licenseInfo', JSON.stringify(licenseInfo))
-        document.getElementById('mask').style.display = 'none'
-        document.getElementById('form').style.display = 'none'
-    }
-</script>
+          licenseeName: licenseeName,
+          assigneeName: assigneeName,
+          expiryDate: expiryDate,
+        };
+        localStorage.setItem("licenseInfo", JSON.stringify(licenseInfo));
+        document.getElementById("mask").style.display = "none";
+        document.getElementById("form").style.display = "none";
+      };
+    </script>
 
-<script>
-    //@see https://zhuanlan.zhihu.com/p/597944027
-    const copyText = async (val) => {
+    <script>
+      //@see https://zhuanlan.zhihu.com/p/597944027
+      const copyText = async (val) => {
         if (navigator.clipboard && navigator.permissions) {
-            await navigator.clipboard.writeText(val)
+          await navigator.clipboard.writeText(val);
         } else {
-            const textArea = document.createElement('textArea')
-            textArea.value = val
-            textArea.style.width = 0
-            textArea.style.position = 'fixed'
-            textArea.style.left = '-999px'
-            textArea.style.top = '10px'
-            textArea.setAttribute('readonly', 'readonly')
-            document.body.appendChild(textArea)
+          const textArea = document.createElement("textArea");
+          textArea.value = val;
+          textArea.style.width = 0;
+          textArea.style.position = "fixed";
+          textArea.style.left = "-999px";
+          textArea.style.top = "10px";
+          textArea.setAttribute("readonly", "readonly");
+          document.body.appendChild(textArea);
 
-            textArea.select()
-            document.execCommand('copy')
-            document.body.removeChild(textArea)
+          textArea.select();
+          document.execCommand("copy");
+          document.body.removeChild(textArea);
         }
-    }
-    // const codes = ["YTD", "QDGO", "MF", "DG", "PS", "QA", "IIE", "YTWE", "FLS", "DLE", "RFU", "PPS", "PCWMP", "II", "TCC", "RSU", "PCC", "RC", "PCE", "FLIJ", "TBA", "DL", "SPP", "QDCLD", "SPA", "DMCLP", "PSW", "GW", "PSI", "IIU", "DMU", "PWS", "HB", "WS", "PCP", "KT", "DCCLT", "RSCLT", "WRS", "RSC", "RRD", "TC", "IIC", "QDPY", "DPK", "DC", "PDB", "DPPS", "QDPHP", "GO", "HCC", "RDCPPP", "QDJVMC", "CL", "DM", "CWML", "FLL", "RR", "QDJS", "RS", "RM", "DS", "MPS", "DPN", "US", "CLN", "DPCLT", "RSV", "MPSIIP", "DB", "QDANDC", "AC", "QDJVM", "PRB", "RD", "CWMR", "SP", "RS0", "DP", "RSF", "PGO", "QDPYC", "PPC", "PC", "EHS", "RSCHB", "FL", "QDNET", "JCD"]
-    window.copyLicense = async function (e) {
-
-        while (localStorage.getItem('licenseInfo') === null) {
-            document.getElementById('mask').style.display = 'block'
-            document.getElementById('form').style.display = 'block'
-            await new Promise(r => setTimeout(r, 1000));
+      };
+      // const codes = ["YTD", "QDGO", "MF", "DG", "PS", "QA", "IIE", "YTWE", "FLS", "DLE", "RFU", "PPS", "PCWMP", "II", "TCC", "RSU", "PCC", "RC", "PCE", "FLIJ", "TBA", "DL", "SPP", "QDCLD", "SPA", "DMCLP", "PSW", "GW", "PSI", "IIU", "DMU", "PWS", "HB", "WS", "PCP", "KT", "DCCLT", "RSCLT", "WRS", "RSC", "RRD", "TC", "IIC", "QDPY", "DPK", "DC", "PDB", "DPPS", "QDPHP", "GO", "HCC", "RDCPPP", "QDJVMC", "CL", "DM", "CWML", "FLL", "RR", "QDJS", "RS", "RM", "DS", "MPS", "DPN", "US", "CLN", "DPCLT", "RSV", "MPSIIP", "DB", "QDANDC", "AC", "QDJVM", "PRB", "RD", "CWMR", "SP", "RS0", "DP", "RSF", "PGO", "QDPYC", "PPC", "PC", "EHS", "RSCHB", "FL", "QDNET", "JCD"]
+      window.copyLicense = async function (e) {
+        while (localStorage.getItem("licenseInfo") === null) {
+          document.getElementById("mask").style.display = "block";
+          document.getElementById("form").style.display = "block";
+          await new Promise((r) => setTimeout(r, 1000));
         }
-        let licenseInfo =  JSON.parse(localStorage.getItem('licenseInfo'))
-        let codes = e.closest('.card').dataset.productCodes.split(',')
+        let licenseInfo = JSON.parse(localStorage.getItem("licenseInfo"));
+        let codes = e.closest(".card").dataset.productCodes.split(",");
         let products = Array.from(codes).map((code) => {
-            return {
-                code: code,
-                fallbackDate: licenseInfo.expiryDate,
-                paidUpTo: licenseInfo.expiryDate
-            }
-        })
+          return {
+            code: code,
+            fallbackDate: licenseInfo.expiryDate,
+            paidUpTo: licenseInfo.expiryDate,
+          };
+        });
         let data = {
-            "licenseeName": licenseInfo.licenseeName,
-            "assigneeName": licenseInfo.assigneeName,
-            "assigneeEmail": "",
-            "licenseRestriction": "",
-            "checkConcurrentUse": false,
-            "products": products,
-            "metadata": "0120230102PPAA013009",
-            "hash": "41472961/0:1563609451",
-            "gracePeriodDays": 7,
-            "autoProlongated": true,
-            "isAutoProlongated": true
-        }
-        let resp = await fetch('/generateLicense', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        }).then(response => response.json())
+          licenseeName: licenseInfo.licenseeName,
+          assigneeName: licenseInfo.assigneeName,
+          assigneeEmail: "",
+          licenseRestriction: "",
+          checkConcurrentUse: false,
+          products: products,
+          metadata: "0120230102PPAA013009",
+          hash: "41472961/0:1563609451",
+          gracePeriodDays: 7,
+          autoProlongated: true,
+          isAutoProlongated: true,
+        };
+        let resp = await fetch("/generateLicense", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }).then((response) => response.json());
 
-        copyText(resp.license)
-            .then(() => {
-                alert("激活码已复制(Tips:请配合 ja-netfilter 食用~~~)");
-            })
-    }
-</script>
-</body>
+        copyText(resp.license).then(() => {
+          alert("激活码已复制(Tips:请配合 ja-netfilter 食用~~~)");
+        });
+      };
+    </script>
+  </body>
 </html>
 {{end}}

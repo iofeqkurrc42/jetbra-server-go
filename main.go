@@ -82,6 +82,7 @@ func index(c *gin.Context) {
 		"licenseeName": "Evaluator",
 		"assigneeName": "Evaluator",
 		"expiryDate":   "2099-12-31",
+		"plugins":      allPluginList,
 	})
 }
 
